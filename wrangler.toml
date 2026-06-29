@@ -1,3 +1,44 @@
-name = "cors-proxy"
-main = "worker.js"
-compatibility_date = "2024-12-01"
+name                       = "cors-proxy"
+main                       = "worker.js"
+compatibility_date         = "2024-12-01"
+compatibility_flags        = ["nodejs_compat"]
+
+# ── Runtime ────────────────────────────────────────────────────────────────────
+workers_dev                = true          # auto-generates a *.workers.dev URL
+keep_vars                  = false         # don't persist vars between deploys
+
+# ── Limits (free plan defaults shown; raise on paid plan) ─────────────────────
+[limits]
+cpu_ms                     = 50            # max CPU time per request (ms)
+
+# ── Observability ─────────────────────────────────────────────────────────────
+[observability]
+enabled                    = true          # enables Workers Logpush / tail logs
+
+# ── Production environment ────────────────────────────────────────────────────
+[env.production]
+name                       = "cors-proxy"
+workers_dev                = true
+
+  [env.production.vars]
+  ENVIRONMENT              = "production"
+
+# ── Staging environment ───────────────────────────────────────────────────────
+[env.staging]
+name                       = "cors-proxy-staging"
+workers_dev                = true
+
+  [env.staging.vars]
+  ENVIRONMENT              = "staging"
+
+# ── Custom domain (uncomment + fill in if you have a zone on Cloudflare) ──────
+# [[env.production.routes]]
+# pattern                  = "proxy.yourdomain.com/*"
+# zone_name                = "yourdomain.com"
+
+# ── Rate limiting (paid plan only — remove if on free tier) ───────────────────
+# [[unsafe.bindings]]
+# name                     = "RATE_LIMITER"
+# type                     = "ratelimit"
+# namespace_id             = "1"
+# simple                   = { limit = 100, period = 60 }
