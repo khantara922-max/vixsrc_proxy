@@ -1,4 +1,4 @@
-name = "vixsrcproxy"
+name = "vixsrcproxy2"
 main = "worker.js"
 compatibility_date = "2024-12-01"
 workers_dev = true
